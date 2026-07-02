@@ -2,8 +2,6 @@ class EBFSession {
 
     [Guid]$SessionId
 
-    [Int64]$ExecutionNumber
-
     [datetime]$StartTime
 
     [datetime]$EndTime
@@ -14,27 +12,33 @@ class EBFSession {
 
     [string]$UserName
 
-    [string]$FrameworkVersion
-
-    [string]$FrameworkCodename
+    [EBFFrameworkInfo]$Framework
 
     [string]$Status
 
-    EBFSession(){
+    EBFSession() {
 
-        $this.SessionId=[guid]::NewGuid()
+        $this.SessionId = [Guid]::NewGuid()
 
-        $this.StartTime=Get-Date
+        $this.StartTime = Get-Date
 
-        $this.FrameworkVersion="0.1.0-alpha"
+        $this.ComputerName = $env:COMPUTERNAME
 
-        $this.FrameworkCodename="Foundation"
+        $this.UserName = "$($env:USERDOMAIN)\$($env:USERNAME)"
 
-        $this.ComputerName=$env:COMPUTERNAME
+        $this.Framework = [EBFFrameworkInfo]::new()
 
-        $this.UserName="$env:USERDOMAIN\$env:USERNAME"
+        $this.Status = "Initializing"
 
-        $this.Status="Initializing"
+    }
+
+    [void] Finish() {
+
+        $this.EndTime = Get-Date
+
+        $this.Duration = $this.EndTime - $this.StartTime
+
+        $this.Status = "Completed"
 
     }
 

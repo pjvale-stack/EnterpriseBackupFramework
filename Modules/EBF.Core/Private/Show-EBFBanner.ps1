@@ -1,33 +1,37 @@
-function Show-EBFBanner{
+function Show-EBFBanner {
 
-param(
-[EBFSession]$Session
-)
+<#
+.SYNOPSIS
+Displays the Enterprise Backup Framework banner.
 
-Clear-Host
+.DESCRIPTION
+Writes the startup banner and basic execution information to the console.
 
-Write-Host ""
+.PARAMETER Session
+Current EBF session.
 
-Write-Host "==============================================================="
+#>
 
-Write-Host ""
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [EBFSession]$Session
+    )
 
-Write-Host " Enterprise Backup Framework"
+    $line = ('=' * 70)
 
-Write-Host ""
+    Write-Host ""
+    Write-Host $line -ForegroundColor DarkGray
+    Write-Host " Enterprise Backup Framework" -ForegroundColor Cyan
+    Write-Host $line -ForegroundColor DarkGray
 
-Write-Host " Version : $($Session.FrameworkVersion)"
+    Write-Host (" Version  : {0}" -f $Session.Framework.Version)
+    Write-Host (" Codename : {0}" -f $Session.Framework.Codename)
+    Write-Host (" Computer : {0}" -f $Session.ComputerName)
+    Write-Host (" User     : {0}" -f $Session.UserName)
+    Write-Host (" Session  : {0}" -f $Session.SessionId)
+    Write-Host (" Started  : {0:yyyy-MM-dd HH:mm:ss}" -f $Session.StartTime)
 
-Write-Host " Session : $($Session.SessionId)"
-
-Write-Host " Server  : $($Session.ComputerName)"
-
-Write-Host " User    : $($Session.UserName)"
-
-Write-Host ""
-
-Write-Host "==============================================================="
-
-Write-Host ""
-
+    Write-Host $line -ForegroundColor DarkGray
+    Write-Host ""
 }

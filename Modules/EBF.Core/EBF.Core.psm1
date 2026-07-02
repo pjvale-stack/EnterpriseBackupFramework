@@ -1,23 +1,56 @@
-$Folders = @(
-    "Classes",
-    "Private",
-    "Public"
-)
+# ---------------------------------------------------------------------------
+# Enterprise Backup Framework
+# EBF.Core
+# ---------------------------------------------------------------------------
 
-foreach($Folder in $Folders)
-{
-    $Path = Join-Path $PSScriptRoot $Folder
+Set-StrictMode -Version Latest
 
-    if(Test-Path $Path)
-    {
-        Get-ChildItem $Path -Filter *.ps1 |
-            Sort-Object Name |
-            ForEach-Object {
+# ---------------------------------------------------------------------------
+# Load Classes
+# ---------------------------------------------------------------------------
 
-                . $_.FullName
+$ClassesPath = Join-Path $PSScriptRoot 'Classes'
 
-            }
-    }
+if (Test-Path $ClassesPath) {
+
+    Get-ChildItem -Path $ClassesPath -Filter '*.ps1' |
+        Sort-Object Name |
+        ForEach-Object {
+            . $_.FullName
+        }
+
+}
+
+# ---------------------------------------------------------------------------
+# Load Private Functions
+# ---------------------------------------------------------------------------
+
+$PrivatePath = Join-Path $PSScriptRoot 'Private'
+
+if (Test-Path $PrivatePath) {
+
+    Get-ChildItem -Path $PrivatePath -Filter '*.ps1' |
+        Sort-Object Name |
+        ForEach-Object {
+            . $_.FullName
+        }
+
+}
+
+# ---------------------------------------------------------------------------
+# Load Public Functions
+# ---------------------------------------------------------------------------
+
+$PublicPath = Join-Path $PSScriptRoot 'Public'
+
+if (Test-Path $PublicPath) {
+
+    Get-ChildItem -Path $PublicPath -Filter '*.ps1' |
+        Sort-Object Name |
+        ForEach-Object {
+            . $_.FullName
+        }
+
 }
 
 Export-ModuleMember -Function *
